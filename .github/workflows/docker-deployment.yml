@@ -60,8 +60,9 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Docker build
+        working-directory: $(PWD)/build-files/
         uses: docker/build-push-action@v5
         with:
-          file: $(PWD)/build-files/Dockerfile-nginx-alpine
+          file: Dockerfile-nginx-alpine
           push: ${{ github.event_name != 'pull_request' }}
           tags: aidysproule/mern-app-1-frontend:latest
