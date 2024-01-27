@@ -45,7 +45,7 @@ jobs:
         run: ls
 
       - name: Get Dockerfile
-        run: cp ./mern/client/Dockerfile-nginx-alpine ./build-files
+        run: cp ./mern/client/Dockerfile-nginx-alpine .
 
       - name: Output build-files contents
         run: ls ./build-files
@@ -62,6 +62,6 @@ jobs:
       - name: Docker build
         uses: docker/build-push-action@v5
         with:
-          file: Dockerfile
+          file: Dockerfile-nginx-alpine
           push: ${{ github.event_name != 'pull_request' }}
           tags: aidysproule/mern-app-1-frontend:latest
