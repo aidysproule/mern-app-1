@@ -46,6 +46,7 @@ jobs:
       - name: Docker build
         uses: docker/build-push-action@v5
         with:
+          context: .
           file: ./mern/client/Dockerfile-nginx-alpine
           push: ${{ github.event_name != 'pull_request' }}
           tags: aidysproule/mern-app-1-frontend:latest
