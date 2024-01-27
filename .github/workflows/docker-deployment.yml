@@ -37,3 +37,16 @@ jobs:
           name: build-files
       - name: Output contents
         run: ls
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Docker build
+        uses: docker/build-push-action@v5
+        with:
+          file: ./mern/client/Dockerfile-nginx-alpine
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: aidysproule/mern-app-1-frontend:latest
