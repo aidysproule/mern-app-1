@@ -60,7 +60,6 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Docker build
-        working-directory: $(PWD)/build-files/
         uses: docker/build-push-action@v5
         with:
           file: Dockerfile-nginx-alpine
