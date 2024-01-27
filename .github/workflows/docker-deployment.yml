@@ -6,7 +6,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    working-directory: ./mern/client
+    defaults:
+      run:
+        working-directory: ./mern/client
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -26,7 +28,9 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    working-directory: ./mern/client
+    defaults:
+      run:
+        working-directory: ./mern/client
     steps:
       - name: Get build artifacts
         uses: actions/download-artifact@v4
