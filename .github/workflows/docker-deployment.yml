@@ -14,15 +14,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Cache dependencies
-        id: cache
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
-
       - name: Install dependencies
-        if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
         working-directory: ./mern/client
 
@@ -59,7 +51,7 @@ jobs:
         run: ls ./build-files
 
       - name: Output PWD
-        run: pwd
+        run: ls /home/runner/work/mern-app-1/mern-app-1
 
       - name: Login to Docker Hub
         uses: docker/login-action@v3
