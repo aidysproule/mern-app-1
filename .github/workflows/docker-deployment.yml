@@ -1,7 +1,7 @@
 name: Build and Deploy Frontend to DockerHub
 
 on:
-  worker_dispatch:
+  workflow_dispatch:
 
 jobs:
   working-directory: ./mern/client
