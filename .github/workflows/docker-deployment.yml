@@ -15,12 +15,15 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+        working-directory: ./mern/client
 
       - name: Build Project
         run: npm run build
+        working-directory: ./mern/client
 
       - name: Uplaod Aritfacts
         uses: actions/upload-artifact@v4
+        working-directory: ./mern/client
         with:
           name: build-files
           path: build
