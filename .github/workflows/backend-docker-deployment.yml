@@ -2,27 +2,26 @@ name: Build and Deploy Backend to DockerHub
 
 on:
   workflow_dispatch:
-  #push:
+  push:
 
 jobs:
   deploy:
-    env:
+    env: # Get the environment secret for the build
       ATLAS_SERVER: ${{ secrets.ATLAS_SERVER }}
       ATLAS_USERNAME: ${{ secrets.ATLAS_USERNAME }}
       ATLAS_PASSWORD: ${{ secrets.ATLAS_PASSWORD }}
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./mern/server
+        working-directory: ./mern/server # Sets the work directory
     steps:
-      - name: Checkout Code
+      - name: Checkout Code # Check out teh code
         uses: actions/checkout@v4
 
-      - name: Set Atlas URL
-        #working-directory: ./mern/server
+      - name: Set Atlas URL # Buidl the URL for the Atlas DB and store in config.env
         run: echo "ATLAS_URI=mongodb+srv://${{env.ATLAS_USERNAME}}:${{env.ATLAS_PASSWORD}}@${{env.ATLAS_SERVER}}/" > config.env
 
-      - name: Login to Docker Hub
+      - name: Login to Docker Hub # Log into Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
@@ -31,7 +30,7 @@ jobs:
       - name: Docker build
         uses: docker/build-push-action@v5
         with:
-          context: ./mern/server/
-          file: ./mern/server/Dockerfile
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: aidysproule/mern-app-1-backend:latest
+          context: ./mern/server/ # Sets the context to be in the root of the 'runs-on: ubuntu-latest' environment
+          file: ./mern/server/Dockerfile # Tells Docker the location of the Dockerfile and where to build it from
+          push: ${{ github.event_name != 'pull_request' }} # Olny push to DockerHub if it's not a pull request
+          tags: aidysproule/mern-app-1-backend:latest # Sets the tag for the image

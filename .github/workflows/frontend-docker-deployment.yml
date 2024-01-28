@@ -9,26 +9,23 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./mern/client
+        working-directory: ./mern/client # Set the working diretory
     steps:
-      - name: Checkout Code
+      - name: Checkout Code # Get the code from the repo
         uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: Install dependencies # Install the npm dependencies
         run: npm ci
-        #working-directory: ./mern/client
 
-      - name: Set Frontend URL
+      - name: Set Frontend URL # Put the API URL for the frontend app into a .env file.
         env:
           REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
         run: echo "REACT_APP_API_URL=$REACT_APP_API_URL" > .env
-        #working-directory: ./mern/client
 
-      - name: Build Project
+      - name: Build Project # Build the project
         run: npm run build
-        #working-directory: ./mern/client
 
-      - name: Upload Aritfacts
+      - name: Upload Aritfacts # Uplaod teh artifacts for build stage
         uses: actions/upload-artifact@v4
         with:
           name: build-files
@@ -38,28 +35,28 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - name: Checkout Code # Get the code from the repo
         uses: actions/checkout@v4
 
-      - name: Get build artifacts
+      - name: Get build artifacts # Get the artifacts from previous build step and put into a build folder
         uses: actions/download-artifact@v4
         with:
           name: build-files
           path: build-files
 
-      - name: Get Dockerfile
+      - name: Get Dockerfile # Get the Dockerfile file the repo code and put into the same folder as the build files
         run: cp ./mern/client/Dockerfile-nginx-alpine ./build-files
 
-      - name: Login to Docker Hub
+      - name: Login to Docker Hub # Lon into Docker
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Docker build
+      - name: Docker build # Build from Docker file and push image to Docker hub
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ./build-files/Dockerfile-nginx-alpine
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: aidysproule/mern-app-1-frontend:latest
+          context: . # Sets the context to be in the root of the 'runs-on: ubuntu-latest' environment
+          file: ./build-files/Dockerfile-nginx-alpine # Tells Docker the location of the Dockerfile and where to build it from
+          push: ${{ github.event_name != 'pull_request' }} # Olny push to DockerHub if it's not a pull request
+          tags: aidysproule/mern-app-1-frontend:latest # Sets the tag for the image
