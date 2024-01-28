@@ -6,6 +6,10 @@ on:
 
 jobs:
   deploy:
+    env:
+      ATLAS_SERVER: ${{ secrets.ATLAS_SERVER }}
+      ATLAS_USERNAME: ${{ secrets.ATLAS_USERNAME }}
+      ATLAS_PASSWORD: ${{ secrets.ATLAS_PASSWORD }}
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -16,10 +20,6 @@ jobs:
 
       - name: Set Atlas URL
         working-directory: ./mern/server
-        env:
-          ATLAS_SERVER: ${{ secrets.ATLAS_SERVER }}
-          ATLAS_USERNAME: ${{ secrets.ATLAS_USERNAME }}
-          ATLAS_PASSWORD: ${{ secrets.ATLAS_PASSWORD }}
         run: echo "ATLAS_URI=mongodb+srv://${{env.ATLAS_USERNAME}}:${{env.ATLAS_PASSWORD}}@${{env.ATLAS_SERVER}}/" > config.env
 
       - name: Login to Docker Hub
