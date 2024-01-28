@@ -24,14 +24,6 @@ jobs:
         run: echo "REACT_APP_API_URL=$REACT_APP_API_URL" > .env
         working-directory: ./mern/client
 
-      - name: Confrim .env created
-        run: ls -lash
-        working-directory: ./mern/client
-
-      - name: Show contents of .env file
-        run: cat .env
-        working-directory: ./mern/client
-
       - name: Build Project
         run: npm run build
         working-directory: ./mern/client
