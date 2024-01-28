@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set Atlas URL
-        working-directory: ./mern/server
+        #working-directory: ./mern/server
         run: echo "ATLAS_URI=mongodb+srv://${{env.ATLAS_USERNAME}}:${{env.ATLAS_PASSWORD}}@${{env.ATLAS_SERVER}}/" > config.env
 
       - name: Login to Docker Hub
