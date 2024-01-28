@@ -25,7 +25,7 @@ jobs:
         working-directory: ./mern/client
 
       - name: Confrim .env created
-        run: ls
+        run: ls -lash
         working-directory: ./mern/client
 
       - name: Show contents of .env file
