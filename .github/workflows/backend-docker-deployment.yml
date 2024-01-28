@@ -2,7 +2,7 @@ name: Build and Deploy Backend to DockerHub
 
 on:
   workflow_dispatch:
-  push:
+  #push:
 
 jobs:
   deploy:
