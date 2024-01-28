@@ -31,7 +31,7 @@ jobs:
       - name: Docker build
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./mern/server/
           file: ./mern/server/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: aidysproule/mern-app-1-backend:latest
